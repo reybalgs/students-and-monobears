@@ -8,6 +8,18 @@ from boat import Boat
 from monobear import Monobear
 
 class Game():
+    def check_if_won(self):
+        """
+        Evaluates the current game environment and returns whether or not the
+        player has won (all students and monobears on the left side) or not.
+        """
+        if(self.count_entities_in_side('student', 'left') == 3 and
+                self.count_entities_in_side('monobear', 'left') == 3 and
+                len(self.find_boat().passengers) == 0):
+            return True
+        else:
+            return False
+
     def check_if_lost(self):
         """
         Evaluates the current game environment and returns whether or not the
