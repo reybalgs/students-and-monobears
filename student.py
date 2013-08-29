@@ -6,5 +6,6 @@
 from entity import Entity
 
 class Student(Entity):
-    def __init__(self, location='right'):
-        super.__init__(self, location='right')
+    def __init__(self, name):
+        super(Student, self).__init__()
+        self.name = name

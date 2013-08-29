@@ -2,7 +2,7 @@
 #
 # Superclass for all entities in the game.
 
-class Entity():
+class Entity(object):
     def change_location(self):
         """
         Switches the location of this entity.

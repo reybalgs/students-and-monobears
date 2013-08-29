@@ -6,6 +6,6 @@ from entity import Entity
 
 class Boat(Entity):
     def __init__(self, firstPassenger = None, secondPassenger = None):
-        super.__init__(self)
+        super(Boat, self).__init__()
         self.firstPassenger = firstPassenger
         self.secondPassenger = secondPassenger
