@@ -8,6 +8,31 @@ from boat import Boat
 from monobear import Monobear
 
 class Game():
+    def check_if_lost(self):
+        """
+        Evaluates the current game environment and returns whether or not the
+        player has lost (monobears > students on one side) or not.
+        """
+        # Start with the left side
+        left_students_count = self.count_entities_in_side('student', 'left')
+        left_monobears_count = self.count_entities_in_side('monobear', 'left')
+
+        if(left_monobears_count > left_students_count and left_students_count >
+                0):
+            return True
+        
+        # Then go to the right side
+        right_students_count = self.count_entities_in_side('student', 'right')
+        right_monobears_count = self.count_entities_in_side('monobear',
+                'right')
+
+        if(right_monobears_count > right_students_count and
+                right_students_count > 0):
+            return True
+
+        # There is no losing condition yet
+        return False
+
     def list_entities(self, entity):
         """
         Gets all the entities of the type entity from both sides of the game
