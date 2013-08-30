@@ -2,6 +2,8 @@
 #
 # Contains the game logic for the game.
 
+import pdb
+
 from entity import Entity
 from student import Student
 from boat import Boat
@@ -20,6 +22,75 @@ class Game():
         else:
             return False
 
+    def print_entity_information(self, entity):
+        """
+        Prints information specific to the entity passed as an argument.
+        """
+        if isinstance(entity, Student):
+            print('Student: ' + entity.name)
+        elif isinstance(entity, Monobear):
+            print('Monobear no. ' + str(entity.number))
+    
+    def get_potential_passengers_on_side(self, side):
+        """
+        Puts all potential passenger entities on the given side, and returns
+        them in a list.
+        """
+        list = []
+        if side is 'left':
+            for entity in self.left_side_entities:
+                if isinstance(entity, Student):
+                    list.append(entity)
+                elif isinstance(entity, Monobear):
+                    list.append(entity)
+        else:
+            for entity in self.right_side_entities:
+                if isinstance(entity, Student):
+                    list.append(entity)
+                elif isinstance(entity, Monobear):
+                    list.append(entity)
+        return list
+
+    def display_statistics(self):
+        """
+        Displays every bit of information on the game.
+        """
+        print('\nCurrent Status')
+        print('LEFT SIDE')
+        if len(self.left_side_entities) == 0:
+            print('EMPTY!')
+        else:
+            for entity in self.left_side_entities:
+                if isinstance(entity, Student):
+                    print('Student ' + entity.name)
+                elif isinstance(entity, Monobear):
+                    print('Monobear ' + str(entity.number))
+                elif isinstance(entity, Boat):
+                    print('Boat: [')
+                    for passenger in entity.passengers:
+                        if isinstance(passenger, Student):
+                            print('Student ' + passenger.name)
+                        elif isinstance(passenger, Monobear):
+                            print('Monobear ' + str(passenger.number))
+                    print(']')
+        print('\nRIGHT SIDE')
+        if len(self.right_side_entities) == 0:
+            print('EMPTY!')
+        else:
+            for entity in self.right_side_entities:
+                if isinstance(entity, Student):
+                    print('Student ' + entity.name)
+                elif isinstance(entity, Monobear):
+                    print('Monobear ' + str(entity.number))
+                elif isinstance(entity, Boat):
+                    print('Boat: [')
+                    for passenger in entity.passengers:
+                        if isinstance(passenger, Student):
+                            print('Student ' + passenger.name)
+                        elif isinstance(passenger, Monobear):
+                            print('Monobear ' + str(passenger.number))
+                    print(']')
+    
     def check_if_lost(self):
         """
         Evaluates the current game environment and returns whether or not the
@@ -246,12 +317,17 @@ class Game():
         """
         # Find the boat
         boat = self.find_boat()
+        # DEBUG: Print entity information
+        #print('Passed entity:')
+        #self.print_entity_information(entity)
         # Check if the boat already contains the given entity
         if entity in boat.passengers:
             print(str(entity) + ' already in boat!')
             return
         else:
             # Check if the given entity is on the same side as the boat
+            print('Entity location: ' + entity.location + ' Boat location : ' +
+                    boat.location)
             if entity.location is boat.location:
                 # Check if the boat is full
                 if len(boat.passengers) == 2:
@@ -269,7 +345,7 @@ class Game():
                         index = self.left_side_entities.index(entity)
                         # Pop the entity from the x-side entities list and put
                         # it on the boat
-                        boat.passengers.append(self.right_side_entities.pop(
+                        boat.passengers.append(self.left_side_entities.pop(
                             index))
             else:
                 # The entity is not on the same side as the boat, it cannot

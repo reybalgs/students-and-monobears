@@ -7,6 +7,15 @@ from student import Student
 from monobear import Monobear
 
 class Boat(Entity):
+    def check_full(self):
+        """
+        Returns a boolean value on whether or not the boat is full or not.
+        """
+        if(len(self.passengers) >= 2):
+            return True
+        else:
+            return False
+
     def list_passengers(self):
         """
         Lists all passengers currently inside the boat
