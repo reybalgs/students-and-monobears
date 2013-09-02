@@ -217,6 +217,18 @@ class Game():
                                 count += 1
         return count
 
+    def get_status_tuple(self):
+        """
+        Returns the current state of the game in the format (monobears,
+        students, boat) in the right side
+        """
+        boat_right = 0
+        if self.find_boat().location == 'right':
+            boat_right = 1
+        return (self.count_entities_in_side('monobear', 'right'),
+                self.count_entities_in_side('student', 'right'),
+                boat_right)
+
     def move_boat(self):
         """
         Moves the boat from its current side to the other.
