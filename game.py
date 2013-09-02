@@ -124,7 +124,6 @@ class Game():
         entity_list = []
 
         if entity is 'student' or entity is 'students':
-            print('Listing students...')
             for x in self.left_side_entities:
                 if isinstance(x, Student):
                     entity_list.append(x)
@@ -135,7 +134,6 @@ class Game():
                 if isinstance(x, Student):
                     entity_list.append(x)
         elif entity is 'monobear' or entity is 'monobears':
-            print('Listing monobears...')
             for x in self.left_side_entities:
                 if isinstance(x, Monobear):
                     entity_list.append(x)
@@ -234,6 +232,26 @@ class Game():
                                 count += 1
         return count
 
+    def return_monobear_locations(self):
+        """
+        Returns the locations of the monobears in a list.
+        """
+        # Get the list of entities
+        monobears = self.list_entities('monobear')
+        # Load the boat
+        boat = self.find_boat()
+        locations = ['', '', '']
+        for monobear in monobears:
+            if monobear in boat.passengers:
+                print('Monobear no ' + str(monobear.number) + ' in boat')
+                locations[monobear.number] = 'boat'
+            else:
+                print('Monobear no ' + str(monobear.number) + ' in ' +
+                        monobear.location)
+                locations[monobear.number] = monobear.location
+        print(str(locations))
+        return locations
+                
     def return_student_locations(self):
         """
         Returns the locations of the students in a list of key-pair values.

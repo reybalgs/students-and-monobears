@@ -49,6 +49,116 @@ class Renderer():
 
         pygame.draw.rect(screen, color, rect, width)
 
+    def draw_monobears(self):
+        """
+        Draws the monobears onto the screen, using the lsit of monobears as a
+        reference.
+        """
+        screen = pygame.display.get_surface()
+
+        # Get the locations of the monobears
+        monobear_locations = self.game.return_monobear_locations()
+        print('Monobear locations: ' + str(monobear_locations))
+        # Load the boat
+        boat = self.game.find_boat()
+        # Load the boat topleft location
+        boat_topleft = self.find_boat_topleft()
+
+        # Load the Monobear image
+        monobear_image = pygame.image.load(os.path.join("images",
+            "monobear.png"))
+        # Resize the monobear image
+        monobear_image = pygame.transform.scale(monobear_image,
+                (monobear_image.get_rect().width / 10,
+                monobear_image.get_rect().height / 10))
+
+        # Set the locations of the monobears
+        x = 0
+        while x < 3:
+            location = monobear_locations[x]
+            if x == 0:
+                # First monobear
+                if location is 'left':
+                    # The monobear is on the left
+                    monobear_location = (0, (SCREEN_Y / 2))
+                elif location is 'right':
+                    # The monobear is on the right
+                    monobear_location = ((SCREEN_X - 180), (SCREEN_Y / 2))
+                elif location is 'boat':
+                    # The monobear is on the boat
+                    # Get the position of the monobear on the boat
+                    position = 0
+                    for passenger in boat.passengers:
+                        if isinstance(passenger, Monobear):
+                            if passenger.number is x:
+                                break
+                        position += 1
+                    if position:
+                        monobear_location = (boat_topleft[X] + 56,
+                                boat_topleft[Y] -
+                                monobear_image.get_rect().height + 56)
+                    else:
+                        monobear_location = (boat_topleft[X], boat_topleft[Y] -
+                                monobear_image.get_rect().height + 56)
+            elif x == 1:
+                # Second monobear
+                if location is 'left':
+                    # The monobear is on the left
+                    monobear_location = (monobear_image.get_rect().width,
+                            (SCREEN_Y / 2))
+                elif location is 'right':
+                    # The monobear is on the right
+                    monobear_location = ((SCREEN_X - 180) +
+                            monobear_image.get_rect().width, (SCREEN_Y / 2))
+                elif location is 'boat':
+                    # The monobear is on the boat
+                    position = 0
+                    for passenger in boat.passengers:
+                        if isinstance(passenger, Monobear):
+                            if passenger.number is x:
+                                break
+                        position += 1
+                    if position:
+                        monobear_location = (boat_topleft[X] + 56,
+                                boat_topleft[Y] -
+                                monobear_image.get_rect().height + 56)
+                    else:
+                        monobear_location = (boat_topleft[X], boat_topleft[Y] -
+                                monobear_image.get_rect().height + 56)
+            elif x == 2:
+                # Third monobear
+                if location is 'left':
+                    # The monobear is on the left
+                    monobear_location = (180 - monobear_image.get_rect().width,
+                            (SCREEN_Y / 2))
+                elif location is 'right':
+                    # The monobear is on the right
+                    monobear_location = ((SCREEN_X - 180) +
+                            (monobear_image.get_rect().width +
+                            monobear_image.get_rect().width), (SCREEN_Y / 2))
+                elif location is 'boat':
+                    # The monobear is on the boat
+                    position = 0
+                    for passenger in boat.passengers:
+                        if isinstance(passenger, Monobear):
+                            if passenger.number is x:
+                                break
+                        position += 1
+                    if position:
+                        monobear_location = (boat_topleft[X] + 56,
+                                boat_topleft[Y] -
+                                monobear_image.get_rect().height + 56)
+                    else:
+                        monobear_location = (boat_topleft[X], boat_topleft[Y] -
+                                monobear_image.get_rect().height + 56)
+            # Blit the monobear
+            screen.blit(monobear_image, monobear_location)
+            # Draw a Monobear number
+            number_font = pygame.font.SysFont("Arial", 24)
+            number = number_font.render(str(x), 1, (255,0,0))
+            screen.blit(number, monobear_location)
+            x += 1
+
     def draw_students(self):
         """
         Draws the students onto the screen, using the list of students as a
@@ -57,6 +167,9 @@ class Renderer():
         The list of students follow a key-value pair of student->location.
         """
         screen = pygame.display.get_surface()
+
+        # Load the boat
+        boat = self.game.find_boat()
 
         # Load the locations of the students
         students_locations = self.game.return_student_locations()

@@ -26,6 +26,8 @@ def main():
     # Load a clock to limit the game FPS
     clock = pygame.time.Clock()
 
+    pygame.init()
+
     # Initialize the sound mixer
     pygame.mixer.init()
 
@@ -39,13 +41,19 @@ def main():
 
     # DEBUG: Set entity locations
     #game.find_boat().location = 'left'
-    #game.find_student('Asahina').location = 'left'
-    #game.find_student('Kirigiri').location = 'left'
+    game.find_student('Asahina').location = 'left'
+    game.find_student('Kirigiri').location = 'left'
     #game.find_student('Fukawa').location = 'left'
-    #game.board_boat(game.find_student('Fukawa'))
+    #game.find_monobear(0).location = 'left'
+    game.find_monobear(1).location = 'left'
+    #game.find_monobear(2).location = 'left'
     #game.board_boat(game.find_student('Kirigiri'))
     #game.board_boat(game.find_student('Asahina'))
-    #game.move_boat()
+    game.board_boat(game.find_student('Fukawa'))
+    game.board_boat(game.find_monobear(0))
+    #game.board_boat(game.find_monobear(1))
+    #game.board_boat(game.find_monobear(2))
+    game.move_boat()
 
     # Initialize a renderer for the graphics
     renderer = Renderer(game)
@@ -81,6 +89,9 @@ def main():
 
         # Draw the students
         renderer.draw_students()
+
+        # Draw the monobears
+        renderer.draw_monobears()
 
         # Draw the boat
         renderer.draw_boat()
