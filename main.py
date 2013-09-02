@@ -9,6 +9,7 @@ import random, os, sys, pygame, pdb
 from pygame.locals import *
 
 from game import *
+from renderer import *
 
 ##############################################################################
 # CONSTANTS
@@ -20,9 +21,6 @@ SCREEN_Y = 480
 
 # Game frame rate
 FPS = 15
-
-# Colors
-WHITE = (255,255,255)
 
 def main():
     # Load a clock to limit the game FPS
@@ -38,6 +36,12 @@ def main():
 
     # Initialize a game
     game = Game()
+
+    # DEBUG: Set boat location
+    #game.find_boat().location = 'left'
+
+    # Initialize a renderer for the graphics
+    renderer = Renderer()
 
     # Main game loop
     while True:
@@ -61,9 +65,15 @@ def main():
         ######################################################################
         # DISPLAY UPDATES
         ######################################################################
+        
+        # Clear the screen
+        renderer.clear_screen()
 
-        # Clear the screen with white
-        screen.fill(WHITE)
+        # Draw the background image
+        renderer.draw_background()
+
+        # Draw the boat
+        renderer.draw_boat(game.find_boat().location)
 
         # Update everything
         pygame.display.flip()
