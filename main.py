@@ -37,11 +37,18 @@ def main():
     # Initialize a game
     game = Game()
 
-    # DEBUG: Set boat location
+    # DEBUG: Set entity locations
     #game.find_boat().location = 'left'
+    #game.find_student('Asahina').location = 'left'
+    #game.find_student('Kirigiri').location = 'left'
+    #game.find_student('Fukawa').location = 'left'
+    #game.board_boat(game.find_student('Fukawa'))
+    #game.board_boat(game.find_student('Kirigiri'))
+    #game.board_boat(game.find_student('Asahina'))
+    #game.move_boat()
 
     # Initialize a renderer for the graphics
-    renderer = Renderer()
+    renderer = Renderer(game)
 
     # Main game loop
     while True:
@@ -72,8 +79,11 @@ def main():
         # Draw the background image
         renderer.draw_background()
 
+        # Draw the students
+        renderer.draw_students()
+
         # Draw the boat
-        renderer.draw_boat(game.find_boat().location)
+        renderer.draw_boat()
 
         # Update everything
         pygame.display.flip()

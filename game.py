@@ -156,7 +156,7 @@ class Game():
         # Find the monobear within that list
         for monobear in monobears:
             if monobear.number is number:
-                print('Monobear No. ' + str(monobear.number) + ' is found!')
+                #print('Monobear No. ' + str(monobear.number) + ' is found!')
                 return monobear
         print('Monobear no. ' + str(number) + ' not found!')
 
@@ -171,9 +171,26 @@ class Game():
         # Find the student within that list
         for student in students:
             if student.name is name:
-                print('Student ' + student.name + ' is found!')
+                #print('Student ' + student.name + ' is found!')
                 return student
         print('Student ' + name + ' not found!')
+
+    def entities_in_location(self, location):
+        """
+        Returns a list of entities in the given location.
+        """
+        entities = []
+
+        if location is 'left':
+            location_entities = self.list_entities()
+            for entity in location_entities:
+                if entity.location is 'left':
+                    entities.append(entity)
+        elif location is 'right':
+            location_entities = self.list_entities()
+            for entity in location_entities:
+                if entity.location is 'right':
+                    entities.append(entity)
 
     def count_entities_in_side(self, entity, side):
         """
@@ -216,6 +233,34 @@ class Game():
                             if(isinstance(passenger, Monobear)):
                                 count += 1
         return count
+
+    def return_student_locations(self):
+        """
+        Returns the locations of the students in a list of key-pair values.
+        """
+        # Find Asahina
+        asahina = self.find_student('Asahina')
+        if asahina in self.find_boat().passengers:
+            asahina_location = 'boat'
+        else:
+            asahina_location = asahina.location
+        # Find Kirigiri
+        kirigiri = self.find_student('Kirigiri')
+        if kirigiri in self.find_boat().passengers:
+            kirigiri_location = 'boat'
+        else:
+            kirigiri_location = kirigiri.location
+        # Find Fukawa
+        fukawa = self.find_student('Fukawa')
+        if fukawa in self.find_boat().passengers:
+            fukawa_location = 'boat'
+        else:
+            fukawa_location = fukawa.location
+        # Put them in a dict list
+        locations = {'asahina': asahina_location, 'kirigiri':
+                kirigiri_location, 'fukawa': fukawa_location}
+
+        return locations
 
     def get_status_tuple(self):
         """
