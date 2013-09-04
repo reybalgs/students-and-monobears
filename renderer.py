@@ -165,6 +165,26 @@ class Renderer():
             screen.blit(number, monobear_location)
             x += 1
 
+    def draw_water_overlay(self):
+        """
+        Draws a water `overlay' on the water area to make the graphics a little
+        shinier.
+        """
+        screen = pygame.display.get_surface()
+
+        # Create the rect
+        water_rect = pygame.Rect((180, SCREEN_Y / 2), (SCREEN_X - 360, SCREEN_Y
+            / 2))
+
+        # Create a surface
+        surface = pygame.Surface((SCREEN_X, SCREEN_Y))
+        surface.set_colorkey((0,0,0))
+        surface.set_alpha(100)
+        # Fill that surface
+        pygame.draw.rect(surface, (100,150,200,200), water_rect)
+        # Blit the surface
+        screen.blit(surface, (0,0))
+
     def draw_students(self):
         """
         Draws the students onto the screen, using the list of students as a

@@ -151,6 +151,9 @@ def main():
         # Draw the boat
         renderer.draw_boat()
 
+        # Draw the water
+        renderer.draw_water_overlay()
+
         # Update everything
         pygame.display.flip()
 
