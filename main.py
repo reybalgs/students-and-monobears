@@ -68,6 +68,12 @@ def main():
         ######################################################################
 
         # Something should go here
+        if(game.check_if_lost()):
+            print('You lose!')
+            sys.exit(0)
+        if(game.check_if_won()):
+            print('You win!')
+            sys.exit(0)
         
         ######################################################################
         # EVENT HANDLING

@@ -100,6 +100,10 @@ class Game():
         left_students_count = self.count_entities_in_side('student', 'left')
         left_monobears_count = self.count_entities_in_side('monobear', 'left')
 
+        # DEBUG
+        #print('There are ' + str(left_students_count) + ' students and ' +
+        #        str(left_monobears_count) + ' monobears on the left')
+
         if(left_monobears_count > left_students_count and left_students_count >
                 0):
             return True
@@ -108,6 +112,10 @@ class Game():
         right_students_count = self.count_entities_in_side('student', 'right')
         right_monobears_count = self.count_entities_in_side('monobear',
                 'right')
+
+        # DEBUG
+        #print('There are ' + str(right_students_count) + ' students and ' +
+        #        str(right_monobears_count) + ' monobears on the right')
 
         if(right_monobears_count > right_students_count and
                 right_students_count > 0):
