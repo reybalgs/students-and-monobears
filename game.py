@@ -385,6 +385,18 @@ class Game():
                     boat = entity
         return boat
 
+    def check_if_in_boat(self, entity):
+        """
+        Returns a boolean value on whether or not the given entity is aboard
+        the boat or not.
+        """
+        boat = self.find_boat()
+
+        if entity in boat.passengers:
+            return True
+        else:
+            return False
+
     def board_boat(self, entity):
         """
         Boards the given entity onto the boat, if the boat is preset on the

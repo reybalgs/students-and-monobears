@@ -168,6 +168,9 @@ class Renderer():
         """
         screen = pygame.display.get_surface()
 
+        # Clean the student rects
+        self.student_rects = []
+
         # Load the boat
         boat = self.game.find_boat()
 
@@ -273,6 +276,16 @@ class Renderer():
                 fukawa_location = (boat_topleft[X], boat_topleft[Y] -
                         fukawa_image.get_rect().height + 56)
 
+        # Add the rects of the students into the list of student rects
+        self.student_rects.append(pygame.Rect(asahina_location,
+            (asahina_image.get_rect().width,
+            asahina_image.get_rect().height)))
+        self.student_rects.append(pygame.Rect(kirigiri_location,
+            (kirigiri_image.get_rect().width,
+            kirigiri_image.get_rect().height)))
+        self.student_rects.append(pygame.Rect(fukawa_location,
+            (fukawa_image.get_rect().width, fukawa_image.get_rect().height)))
+
         # Blit Asahina
         screen.blit(asahina_image, asahina_location)
         # Blit Kirigiri
@@ -329,5 +342,33 @@ class Renderer():
 
         return boat_pixel_loc
 
+    def find_boat_rect(self):
+        """
+        Finds the rect corresponding to the boat, then returns it.
+        """
+        boat = self.game.find_boat().location
+
+        # Load the boat image
+        boat_image = pygame.image.load(os.path.join("images", "boat.png"))
+
+        # Scale the image to half
+        boat_image = pygame.transform.scale(boat_image,
+                ((boat_image.get_rect().width / 5),
+                (boat_image.get_rect().height / 5)))
+
+        if boat is 'right':
+            boat_pixel_loc = ((SCREEN_X - 180) -
+                    boat_image.get_rect().width, (SCREEN_Y / 2) -
+                    (boat_image.get_rect().height / 2))
+        else:
+            boat_pixel_loc = (180, (SCREEN_Y / 2) -
+                    (boat_image.get_rect().height / 2))
+
+        rect = boat_image.get_rect()
+        rect.topleft = boat_pixel_loc
+
+        return rect
+    
     def __init__(self, game):
         self.game = game
+        self.student_rects = []
