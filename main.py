@@ -106,6 +106,25 @@ def main():
                                 game.disembark_boat(student)
                             else:
                                 game.board_boat(student)
+                    for rect in renderer.monobear_rects:
+                        # Check if the user pressed one of the monobear rects
+                        if((eventX > rect.left and eventX < rect.right) and
+                                (eventY > rect.top and eventY < rect.bottom)):
+                            if(renderer.monobear_rects.index(rect) is 0):
+                                # Player has selected Monobear 0
+                                monobear = game.find_monobear(0)
+                            elif(renderer.monobear_rects.index(rect) is 1):
+                                # Player has selected Monobear 1
+                                monobear = game.find_monobear(1)
+                            elif(renderer.monobear_rects.index(rect) is 2):
+                                # Player has selected Monobear 2
+                                monobear = game.find_monobear(2)
+                            # Check if we have to make the monobear board or
+                            # disembark the boat
+                            if(game.check_if_in_boat(monobear)):
+                                game.disembark_boat(monobear)
+                            else:
+                                game.board_boat(monobear)
 
         ######################################################################
         # DISPLAY UPDATES

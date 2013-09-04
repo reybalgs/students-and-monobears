@@ -56,6 +56,8 @@ class Renderer():
         """
         screen = pygame.display.get_surface()
 
+        # Clear the monobear rects
+        self.monobear_rects = []
         # Get the locations of the monobears
         monobear_locations = self.game.return_monobear_locations()
         print('Monobear locations: ' + str(monobear_locations))
@@ -153,6 +155,10 @@ class Renderer():
                                 monobear_image.get_rect().height + 56)
             # Blit the monobear
             screen.blit(monobear_image, monobear_location)
+            # Add the monobear's rect into the list of monobear rects
+            self.monobear_rects.append(pygame.Rect(monobear_location,
+                (monobear_image.get_rect().width,
+                monobear_image.get_rect().height)))
             # Draw a Monobear number
             number_font = pygame.font.SysFont("Arial", 24)
             number = number_font.render(str(x), 1, (255,0,0))
@@ -372,3 +378,4 @@ class Renderer():
     def __init__(self, game):
         self.game = game
         self.student_rects = []
+        self.monobear_rects = []
