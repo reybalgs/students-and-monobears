@@ -319,6 +319,29 @@ class Renderer():
         # Blit Fukawa
         screen.blit(fukawa_image, fukawa_location)
 
+    def draw_button(self):
+        """
+        Draws the `solve' button on the bottom center that makes the AI solve
+        the current problem.
+        """
+        screen = pygame.display.get_surface()
+        
+        # Load the button image
+        button_image = pygame.image.load(os.path.join("images", "solve.png"))
+        # Scale the image
+        button_image = pygame.transform.scale(button_image,
+                ((button_image.get_rect().width / 4),
+                (button_image.get_rect().height / 4)))
+        # Put the topleft of the boat on the center bottom
+        button_topleft = ((SCREEN_X / 2) - (button_image.get_rect().width / 2),
+            (SCREEN_Y - button_image.get_rect().height))
+        # Create the button's rect
+        self.button_rect = pygame.Rect(button_topleft,
+                (button_image.get_rect().width,
+                button_image.get_rect().height))
+        # Blit the button image
+        screen.blit(button_image, button_topleft)
+
     def draw_boat(self):
         """
         Draws the boat onto the screen depending on the given location.
@@ -397,3 +420,4 @@ class Renderer():
         self.game = game
         self.student_rects = []
         self.monobear_rects = []
+        self.button_rect = None

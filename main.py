@@ -154,6 +154,9 @@ def main():
         # Draw the water
         renderer.draw_water_overlay()
 
+        # Draw the solve button
+        renderer.draw_button()
+
         # Update everything
         pygame.display.flip()
 
