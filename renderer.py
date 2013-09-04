@@ -98,10 +98,10 @@ class Renderer():
                     if position:
                         monobear_location = (boat_topleft[X] + 56,
                                 boat_topleft[Y] -
-                                monobear_image.get_rect().height + 56)
+                                monobear_image.get_rect().height + 16)
                     else:
                         monobear_location = (boat_topleft[X], boat_topleft[Y] -
-                                monobear_image.get_rect().height + 56)
+                                monobear_image.get_rect().height + 16)
             elif x == 1:
                 # Second monobear
                 if location is 'left':
@@ -123,15 +123,15 @@ class Renderer():
                     if position:
                         monobear_location = (boat_topleft[X] + 56,
                                 boat_topleft[Y] -
-                                monobear_image.get_rect().height + 56)
+                                monobear_image.get_rect().height + 16)
                     else:
                         monobear_location = (boat_topleft[X], boat_topleft[Y] -
-                                monobear_image.get_rect().height + 56)
+                                monobear_image.get_rect().height + 16)
             elif x == 2:
                 # Third monobear
                 if location is 'left':
                     # The monobear is on the left
-                    monobear_location = (180 - monobear_image.get_rect().width,
+                    monobear_location = (monobear_image.get_rect().width * 2,
                             (SCREEN_Y / 2))
                 elif location is 'right':
                     # The monobear is on the right
@@ -149,10 +149,10 @@ class Renderer():
                     if position:
                         monobear_location = (boat_topleft[X] + 56,
                                 boat_topleft[Y] -
-                                monobear_image.get_rect().height + 56)
+                                monobear_image.get_rect().height + 16)
                     else:
                         monobear_location = (boat_topleft[X], boat_topleft[Y] -
-                                monobear_image.get_rect().height + 56)
+                                monobear_image.get_rect().height + 16)
             # Blit the monobear
             screen.blit(monobear_image, monobear_location)
             # Add the monobear's rect into the list of monobear rects
@@ -228,10 +228,10 @@ class Renderer():
             # Now let's base Asahina's topleft position on that position found
             if position:
                 asahina_location = (boat_topleft[X] + 56, boat_topleft[Y] -
-                    asahina_image.get_rect().height + 56)
+                    asahina_image.get_rect().height + 12)
             else:
                 asahina_location = (boat_topleft[X], boat_topleft[Y] -
-                    asahina_image.get_rect().height + 56)
+                    asahina_image.get_rect().height + 12)
         # Kirigiri
         if students_locations['kirigiri'] == 'left':
             kirigiri_location = (asahina_image.get_rect().width, (SCREEN_Y / 2) -
@@ -252,10 +252,10 @@ class Renderer():
             # position
             if position:
                 kirigiri_location = (boat_topleft[X] + 56, boat_topleft[Y] -
-                        kirigiri_image.get_rect().height + 56)
+                        kirigiri_image.get_rect().height + 12)
             else:
                 kirigiri_location = (boat_topleft[X], boat_topleft[Y] -
-                        kirigiri_image.get_rect().height + 56)
+                        kirigiri_image.get_rect().height + 12)
         # Fukawa
         if students_locations['fukawa'] == 'left':
             fukawa_location = (asahina_image.get_rect().width +
@@ -277,10 +277,10 @@ class Renderer():
             # Let's base Fukawa's topleft position based on that position
             if position:
                 fukawa_location = (boat_topleft[X] + 56, boat_topleft[Y] -
-                        fukawa_image.get_rect().height + 56)
+                        fukawa_image.get_rect().height + 12)
             else:
                 fukawa_location = (boat_topleft[X], boat_topleft[Y] -
-                        fukawa_image.get_rect().height + 56)
+                        fukawa_image.get_rect().height + 12)
 
         # Add the rects of the students into the list of student rects
         self.student_rects.append(pygame.Rect(asahina_location,
@@ -340,11 +340,9 @@ class Renderer():
         # Get the coordinates where we should put the boat in
         if boat is 'right':
             boat_pixel_loc = ((SCREEN_X - 180) -
-                    boat_image.get_rect().width, (SCREEN_Y / 2) -
-                    (boat_image.get_rect().height / 2))
+                    boat_image.get_rect().width, (SCREEN_Y / 2) - 8)
         else:
-            boat_pixel_loc = (180, (SCREEN_Y / 2) -
-                    (boat_image.get_rect().height / 2))
+            boat_pixel_loc = (180, (SCREEN_Y / 2) - 8)
 
         return boat_pixel_loc
 
