@@ -3,13 +3,46 @@
 # clitest.py
 #
 # Program to test the game without resorting to pygame graphics.
-
 import pdb, sys, os
 
 from game import Game
 from entity import Entity
 from monobear import Monobear
 from student import Student
+from ai_solver import *
+
+def ai_test():
+    game = Game()
+    ai = AI(game)
+    # Get the AI to find a path
+    ai.solve()
+    while True:
+        #os.system('clear')
+
+        if game.check_if_won():
+            print('AI is done!')
+            game.display_statistics()
+            return True
+        #if game.check_if_lost():
+        #    print('AI encountered an error')
+        #    game.display_statistics()
+        #    return False
+        # Display game statistics
+        game.display_statistics()
+
+        # Display the path
+        print('Path')
+        for node in ai.path:
+            node.print_node()
+        print('End of path list')
+
+        # Get the AI to make their move
+        ai.make_move(ai.path.pop(1))
+
+        # Display game statistics
+        game.display_statistics()
+
+        a = raw_input('Press any key to continue >')
 
 def play_test():
     game = Game()
@@ -76,7 +109,11 @@ def main():
         else:
             print('You have lost!')
     elif input is 'b':
-        print('AI testing not yet implemented')
+        print('AI testing initialized')
+        if(ai_test()):
+            print('You have won')
+        else:
+            print('You have lost!')
     else:
         return 0
 
