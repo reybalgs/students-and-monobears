@@ -26,14 +26,19 @@ FPS = 15
 # Delay when the AI makes a move
 MOVE_DELAY = 250
 
+# Initialize the sound mixer
+pygame.mixer.init()
+
+# Load the sounds that will be used
+click_sound = pygame.mixer.Sound(os.path.join("sounds", "click.ogg"))
+win_sound = pygame.mixer.Sound(os.path.join("sounds", "win.ogg"))
+lose_sound = pygame.mixer.Sound(os.path.join("sounds", "lose.ogg"))
+
 def main():
     # Load a clock to limit the game FPS
     clock = pygame.time.Clock()
 
     pygame.init()
-
-    # Initialize the sound mixer
-    pygame.mixer.init()
 
     # Initialize the game main screen
     window = pygame.display.set_mode((SCREEN_X, SCREEN_Y))
@@ -68,6 +73,12 @@ def main():
     # Initialize a renderer for the graphics
     renderer = Renderer(game)
 
+    # Play the music of the game
+    pygame.mixer.music.load(os.path.join("sounds", "music.ogg"))
+    pygame.mixer.music.set_volume(0.5)
+    pygame.mixer.music.play()
+
+
     # Main game loop
     while True:
         # Tick the game clock
@@ -79,11 +90,17 @@ def main():
 
         # Something should go here
         if(game.check_if_lost()):
+            lose_sound.play()
+            pygame.mixer.music.stop()
             print('You lose!')
-            sys.exit(0)
+            pygame.time.wait(int(lose_sound.get_length() * 1000))
+            return 0
         if(game.check_if_won()):
+            win_sound.play()
+            pygame.mixer.music.stop()
             print('You win!')
-            sys.exit(0)
+            pygame.time.wait(int(win_sound.get_length() * 1000))
+            break
 
         # If the AI is supposed to solve the game, make it so
         if ai_solving:
@@ -91,6 +108,7 @@ def main():
             ai.solve()
             # Make a move depending on the AI path
             ai.make_move(ai.path.pop(1))
+            click_sound.play()
             # Put some kind of delay
             pygame.time.wait(MOVE_DELAY)
         
@@ -105,6 +123,7 @@ def main():
                 if event.type == MOUSEBUTTONDOWN:
                     eventX = event.pos[0]
                     eventY = event.pos[1]
+                    click_sound.play()
                     boat_rect = renderer.find_boat_rect()
                     # Check if the user clicked on the boat
                     if((eventX > boat_rect.left and eventX < boat_rect.right)
