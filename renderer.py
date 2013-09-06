@@ -165,6 +165,41 @@ class Renderer():
             screen.blit(number, monobear_location)
             x += 1
 
+    def draw_instruction_text(self):
+        """
+        Draws some instructional text on top of the screen.
+        """
+        screen = pygame.display.get_surface()
+        first_line = ("Can you move all students and monobears to the other " +
+            "side without the monobears")
+        second_line = " overwhelming the students?"
+        first_instruction = "Click on a student or monobear to embark/disembark."
+        second_instruction = "Click on the boat to move it across the river."
+
+        # Create the font
+        font = pygame.font.SysFont("Arial", 20)
+        first_line_text = font.render(first_line, 1, (20,20,80))
+        second_line_text = font.render(second_line, 1, (20,20,80))
+        first_instruction_text = font.render(first_instruction, 1, (20,20,80))
+        second_instruction_text = font.render(second_instruction, 1,
+                (20,20,80))
+
+        # Draw the fonts
+        screen.blit(first_line_text, ((SCREEN_X / 2) -
+            (first_line_text.get_rect().width / 2), 0))
+        screen.blit(second_line_text, ((SCREEN_X / 2) -
+            (second_line_text.get_rect().width / 2),
+            first_line_text.get_rect().height))
+        screen.blit(first_instruction_text, ((SCREEN_X / 2) -
+            (first_instruction_text.get_rect().width / 2),
+            (first_line_text.get_rect().height +
+            second_line_text.get_rect().height)))
+        screen.blit(second_instruction_text, ((SCREEN_X / 2) -
+            (second_instruction_text.get_rect().width / 2) ,
+            (first_line_text.get_rect().height +
+            second_line_text.get_rect().height +
+            first_instruction_text.get_rect().height)))
+
     def draw_win_lose_text(self, lose=0):
         """
         Draws the text that declares if the player has won or lost.
