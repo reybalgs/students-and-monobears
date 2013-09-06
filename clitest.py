@@ -30,6 +30,9 @@ def ai_test():
         # Display game statistics
         game.display_statistics()
 
+        # Get the AI to find a path
+        ai.solve()
+
         # Display the path
         print('Path')
         for node in ai.path:

@@ -10,6 +10,7 @@ from pygame.locals import *
 
 from game import *
 from renderer import *
+from ai_solver import *
 
 ##############################################################################
 # CONSTANTS
@@ -21,6 +22,9 @@ SCREEN_Y = 480
 
 # Game frame rate
 FPS = 15
+
+# Delay when the AI makes a move
+MOVE_DELAY = 250
 
 def main():
     # Load a clock to limit the game FPS
@@ -38,6 +42,9 @@ def main():
 
     # Initialize a game
     game = Game()
+
+    # Initialize the AI
+    ai = AI(game)
 
     # Flag that tracks if the AI has to solve the problem
     ai_solving = False
@@ -71,12 +78,21 @@ def main():
         ######################################################################
 
         # Something should go here
-        #if(game.check_if_lost()):
-        #    print('You lose!')
-        #    sys.exit(0)
+        if(game.check_if_lost()):
+            print('You lose!')
+            sys.exit(0)
         if(game.check_if_won()):
             print('You win!')
             sys.exit(0)
+
+        # If the AI is supposed to solve the game, make it so
+        if ai_solving:
+            # Find a route for the current game state
+            ai.solve()
+            # Make a move depending on the AI path
+            ai.make_move(ai.path.pop(1))
+            # Put some kind of delay
+            pygame.time.wait(MOVE_DELAY)
         
         ######################################################################
         # EVENT HANDLING
@@ -85,60 +101,65 @@ def main():
         for event in pygame.event.get():
             if event.type == QUIT:
                 sys.exit(0)
-            if event.type == MOUSEBUTTONDOWN:
-                eventX = event.pos[0]
-                eventY = event.pos[1]
-                boat_rect = renderer.find_boat_rect()
-                # Check if the user clicked on the boat
-                if((eventX > boat_rect.left and eventX < boat_rect.right) and
-                        (eventY > boat_rect.top and eventY <
-                        boat_rect.bottom)):
-                    # Player has pressed the boat
-                    game.move_boat()
-                elif((eventX > renderer.button_rect.left and eventX <
-                        renderer.button_rect.right) and (eventY > button_rect.top
-                        and eventY < button_rect.buttom)):
-                    # Player has pressed the solve button
-                    ai_solving = True
-                else:
-                    for rect in renderer.student_rects:
-                        # Check if the user pressed one of the student rects
-                        if((eventX > rect.left and eventX < rect.right) and
-                                (eventY > rect.top and eventY < rect.bottom)):
-                            if(renderer.student_rects.index(rect) is 0):
-                                # Player has selected Asahina
-                                student = game.find_student('Asahina')
-                            elif(renderer.student_rects.index(rect) is 1):
-                                # Player has selected Kirigiri
-                                student = game.find_student('Kirigiri')
-                            elif(renderer.student_rects.index(rect) is 2):
-                                # Player has selected Fukawa
-                                student = game.find_student('Fukawa')
-                            # Check if we have to make the student board or
-                            # disembark the boat
-                            if(game.check_if_in_boat(student)):
-                                game.disembark_boat(student)
-                            else:
-                                game.board_boat(student)
-                    for rect in renderer.monobear_rects:
-                        # Check if the user pressed one of the monobear rects
-                        if((eventX > rect.left and eventX < rect.right) and
-                                (eventY > rect.top and eventY < rect.bottom)):
-                            if(renderer.monobear_rects.index(rect) is 0):
-                                # Player has selected Monobear 0
-                                monobear = game.find_monobear(0)
-                            elif(renderer.monobear_rects.index(rect) is 1):
-                                # Player has selected Monobear 1
-                                monobear = game.find_monobear(1)
-                            elif(renderer.monobear_rects.index(rect) is 2):
-                                # Player has selected Monobear 2
-                                monobear = game.find_monobear(2)
-                            # Check if we have to make the monobear board or
-                            # disembark the boat
-                            if(game.check_if_in_boat(monobear)):
-                                game.disembark_boat(monobear)
-                            else:
-                                game.board_boat(monobear)
+            if not ai_solving:
+                if event.type == MOUSEBUTTONDOWN:
+                    eventX = event.pos[0]
+                    eventY = event.pos[1]
+                    boat_rect = renderer.find_boat_rect()
+                    # Check if the user clicked on the boat
+                    if((eventX > boat_rect.left and eventX < boat_rect.right)
+                            and (eventY > boat_rect.top and eventY <
+                            boat_rect.bottom)):
+                        # Player has pressed the boat
+                        game.move_boat()
+                    elif((eventX > renderer.button_rect.left and eventX <
+                            renderer.button_rect.right) and (eventY >
+                            renderer.button_rect.top and eventY <
+                            renderer.button_rect.bottom)):
+                        # Player has pressed the solve button
+                        print('AI now solving the game!')
+                        ai_solving = True
+                    else:
+                        for rect in renderer.student_rects:
+                            # Check if the user pressed one of the student rects
+                            if((eventX > rect.left and eventX < rect.right) and
+                                    (eventY > rect.top and eventY <
+                                    rect.bottom)):
+                                if(renderer.student_rects.index(rect) is 0):
+                                    # Player has selected Asahina
+                                    student = game.find_student('Asahina')
+                                elif(renderer.student_rects.index(rect) is 1):
+                                    # Player has selected Kirigiri
+                                    student = game.find_student('Kirigiri')
+                                elif(renderer.student_rects.index(rect) is 2):
+                                    # Player has selected Fukawa
+                                    student = game.find_student('Fukawa')
+                                # Check if we have to make the student board or
+                                # disembark the boat
+                                if(game.check_if_in_boat(student)):
+                                    game.disembark_boat(student)
+                                else:
+                                    game.board_boat(student)
+                        for rect in renderer.monobear_rects:
+                            # Check if the user pressed one of the monobear rects
+                            if((eventX > rect.left and eventX < rect.right) and
+                                    (eventY > rect.top and eventY <
+                                    rect.bottom)):
+                                if(renderer.monobear_rects.index(rect) is 0):
+                                    # Player has selected Monobear 0
+                                    monobear = game.find_monobear(0)
+                                elif(renderer.monobear_rects.index(rect) is 1):
+                                    # Player has selected Monobear 1
+                                    monobear = game.find_monobear(1)
+                                elif(renderer.monobear_rects.index(rect) is 2):
+                                    # Player has selected Monobear 2
+                                    monobear = game.find_monobear(2)
+                                # Check if we have to make the monobear board
+                                # or disembark the boat
+                                if(game.check_if_in_boat(monobear)):
+                                    game.disembark_boat(monobear)
+                                else:
+                                    game.board_boat(monobear)
 
         ######################################################################
         # DISPLAY UPDATES
