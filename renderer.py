@@ -165,6 +165,22 @@ class Renderer():
             screen.blit(number, monobear_location)
             x += 1
 
+    def draw_win_lose_text(self, lose=0):
+        """
+        Draws the text that declares if the player has won or lost.
+        """
+        screen = pygame.display.get_surface()
+        if lose:
+            lose_font = pygame.font.SysFont("Arial", 48)
+            lose_text = lose_font.render("You failed!", 1, (150,30,30))
+            screen.blit(lose_text, ((SCREEN_X / 2) -
+                (lose_text.get_rect().width / 2), 0))
+        else:
+            win_font = pygame.font.SysFont("Arial", 48)
+            win_text = win_font.render("Victory!", 1, (30,150,30))
+            screen.blit(win_text, ((SCREEN_X / 2) - (win_text.get_rect().width
+                / 2), 0))
+
     def draw_water_overlay(self):
         """
         Draws a water `overlay' on the water area to make the graphics a little

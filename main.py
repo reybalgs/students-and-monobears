@@ -205,6 +205,12 @@ def main():
         # Draw the solve button
         renderer.draw_button()
 
+        # Draw the winning or losing text, if possible
+        if game.check_if_won():
+            renderer.draw_win_lose_text(0)
+        if game.check_if_lost():
+            renderer.draw_win_lose_text(1)
+
         # Update everything
         pygame.display.flip()
 
