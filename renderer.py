@@ -162,8 +162,23 @@ class Renderer():
             # Draw a Monobear number
             number_font = pygame.font.SysFont("Arial", 24)
             number = number_font.render(str(x), 1, (255,0,0))
-            screen.blit(number, monobear_location)
+            #screen.blit(number, monobear_location)
             x += 1
+
+    def draw_boat_text(self):
+        """
+        Draws the text that appears when the player attempts to move the boat
+        without anybody on it.
+        """
+        screen = pygame.display.get_surface()
+        string = "Boat cannot move without a passenger!"
+        boat_rect = self.find_boat_rect()
+
+        # Create the font
+        font = pygame.font.SysFont("Arial", 20)
+        text = font.render(string, 1, (100,0,0))
+        screen.blit(text, ((boat_rect.width / 2) - (text.get_rect().width / 2)
+            + boat_rect.left, boat_rect.top - text.get_rect().height))
 
     def draw_instruction_text(self):
         """

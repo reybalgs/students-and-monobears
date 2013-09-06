@@ -78,6 +78,9 @@ def main():
     pygame.mixer.music.set_volume(0.5)
     pygame.mixer.music.play()
 
+    # Variable that tracks if the player clicked the boat without anyone on it
+    clicked_boat_no_passenger = False
+    clicked_boat_text_frames = 0
 
     # Main game loop
     while True:
@@ -111,6 +114,13 @@ def main():
             click_sound.play()
             # Put some kind of delay
             pygame.time.wait(MOVE_DELAY)
+
+        # Increment that animation frames
+        if clicked_boat_no_passenger:
+            clicked_boat_text_frames += 1
+            if clicked_boat_text_frames >= FPS * 2:
+                clicked_boat_text_frames = 0
+                clicked_boat_no_passenger = False
         
         ######################################################################
         # EVENT HANDLING
@@ -129,6 +139,8 @@ def main():
                     if((eventX > boat_rect.left and eventX < boat_rect.right)
                             and (eventY > boat_rect.top and eventY <
                             boat_rect.bottom)):
+                        if not len(game.find_boat().passengers):
+                            clicked_boat_no_passenger = True
                         # Player has pressed the boat
                         game.move_boat()
                     elif((eventX > renderer.button_rect.left and eventX <
@@ -204,6 +216,11 @@ def main():
 
         # Draw the solve button
         renderer.draw_button()
+
+        # Draw the text that appears if the player attempts to move the boat
+        # without passengers
+        if(clicked_boat_text_frames):
+            renderer.draw_boat_text()
 
         if not game.check_if_won() and not game.check_if_lost():
             renderer.draw_instruction_text()
