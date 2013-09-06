@@ -25,10 +25,17 @@ class Node():
         """
         if((self.missionaries <= 3 and self.missionaries >= 0) and
                 (self.cannibals <= 3 and self.cannibals >= 0)):
-            if(self.cannibals <= self.missionaries):
+            if(self.missionaries == 0):
                 return True
+            elif(self.missionaries == 3):
+                if(self.cannibals <= self.missionaries):
+                    return True
             else:
-                return False
+                if((self.cannibals <= self.missionaries) and abs(self.cannibals -
+                        3) <= abs(self.missionaries - 3)):
+                    return True
+                else:
+                    return False
         else:
             return False
 
@@ -80,13 +87,15 @@ class AI():
         """
         #pdb.set_trace()
         successors = []
+        print('Evaluating successors of node:')
+        node.print_node()
         if node.boat == 1:
             # Boat is on the right side
+            print('Node is on right side!')
             # First option: Send two cannibals into left side
             successor = Node(node.cannibals - 2, node.missionaries, 0, node)
-            print('Evaluating successors of node:')
+            print('Evaluating node:')
             successor.print_node()
-            print('Node is on right side!')
             if(successor.is_valid() and not
                     self.is_node_inside_list(successor, self.closed_nodes)):
                 successor.print_node()
@@ -131,11 +140,11 @@ class AI():
                 successors.append(successor)
         elif node.boat == 0:
             # Boat is on the left side
+            print('Boat is on left side!')
             # First option: Send two cannibals into right side
             successor = Node(node.cannibals + 2, node.missionaries, 1, node)
-            print('Evaluating successors of node:')
+            print('Evaluating node:')
             successor.print_node()
-            print('Boat is on left side!')
             if(successor.is_valid() and not
                     self.is_node_inside_list(successor, self.closed_nodes)):
                 successor.print_node()

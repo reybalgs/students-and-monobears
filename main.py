@@ -39,6 +39,9 @@ def main():
     # Initialize a game
     game = Game()
 
+    # Flag that tracks if the AI has to solve the problem
+    ai_solving = False
+
     # DEBUG: Set entity locations
     #game.find_boat().location = 'left'
     #game.find_student('Asahina').location = 'left'
@@ -68,9 +71,9 @@ def main():
         ######################################################################
 
         # Something should go here
-        if(game.check_if_lost()):
-            print('You lose!')
-            sys.exit(0)
+        #if(game.check_if_lost()):
+        #    print('You lose!')
+        #    sys.exit(0)
         if(game.check_if_won()):
             print('You win!')
             sys.exit(0)
@@ -92,6 +95,11 @@ def main():
                         boat_rect.bottom)):
                     # Player has pressed the boat
                     game.move_boat()
+                elif((eventX > renderer.button_rect.left and eventX <
+                        renderer.button_rect.right) and (eventY > button_rect.top
+                        and eventY < button_rect.buttom)):
+                    # Player has pressed the solve button
+                    ai_solving = True
                 else:
                     for rect in renderer.student_rects:
                         # Check if the user pressed one of the student rects

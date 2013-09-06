@@ -23,10 +23,10 @@ def ai_test():
             print('AI is done!')
             game.display_statistics()
             return True
-        #if game.check_if_lost():
-        #    print('AI encountered an error')
-        #    game.display_statistics()
-        #    return False
+        if game.check_if_lost():
+            print('AI encountered an error')
+            game.display_statistics()
+            return False
         # Display game statistics
         game.display_statistics()
 
